@@ -1,25 +1,23 @@
 // -------------------------------------------- //
-// Googleシートへのアクセス                      //
+//          shrine.csvへのアクセス               //
 // -------------------------------------------- //
 
 const sheetNames = ['main'];
-const spreadsheetId = '10z7IOnb7m_ACCgjR7DesWL4c4uZVmAHMT2SUtuLFfaQ';
-const apiKey = '';
+const csvFile = 'shrine.csv';
 let data = {};
 
 async function fetchData(sheetName) {
-	console.log('Fetching data from', sheetName);
-	const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}?key=${apiKey}`;
-
+	console.log('Fetching data from', csvFile);
 	try {
-		const response = await fetch(url);
+		const response = await fetch(csvFile);
 		if (!response.ok) {
 			throw new Error('Failed to fetch data');
 		}
-		const data = await response.json();
+		const text = await response.text();
+		const rows = text.trim().split('\n').map(row => row.split(','));
 		// 最初の行を削除
-		data.values.shift();
-		return data;
+		rows.shift();
+		return { values: rows };
 	} catch (error) {
 		console.error('Error fetching data:', error);
 		return null;

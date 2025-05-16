@@ -30,17 +30,12 @@ function init() {
 		}
 	});
 	
-	// ...existing code...
 	let lastClickedMarker = null; // 最後にクリックしたマーカーを追跡
 	// 言語切り替え設定
 	 let currentLanguage = 'japanese'; // 初期言語
 	function setLanguage(language) {
 		currentLanguage = language;
 		regenerateLeftPanel(); // 左パネルを再生成
-		// if (lastClickedMarker) {
-		//      lastClickedMarker.getElement().click(); // 最後にクリックしたマーカーを再クリックして更新
-		// }
-		//  updateTextContent();
 	}
 
 	function updateTextContent() { // ここを追加
@@ -53,12 +48,6 @@ function init() {
 			}
 		});
 	}
-
-	// ボタンクリックイベントを登録
-	// document.getElementById('language-toggle-button').addEventListener('click', () => {
-	//     const newLanguage = currentLanguage === 'japanese' ? 'english' : 'japanese';
-	//     setLanguage(newLanguage);
-	// });
 
 	// Replace language button event listener with toggle
 	document.getElementById('languageToggle').addEventListener('change', function(e) {
@@ -75,9 +64,6 @@ function init() {
 			? (isVisible ? 'Tools' : 'Show Tools')
 			: (isVisible ? 'ツール' : 'ツールを表示');
 	});
-
-	// document.getElementById('add-geojson-layer-button').addEventListener('click', addGeoJsonLayer);
-	// document.getElementById('remove-geojson-layer-button').addEventListener('click', removeGeoJsonLayer);
 
 	// 初期メッセージを設定
 	  document.getElementById('info').innerHTML = '言語の選択とアイコンをクリックまたはタップして詳細を表示';
@@ -103,22 +89,6 @@ function init() {
 	let markers = [];
 	initMap();
 
-	// filter rows based on marker-filter dropdown
-	// const dropdown = document.getElementById('marker-filter');
-	// dropdown.addEventListener('change', function() {
-	//     const category = parseInt(dropdown.value);
-	//     console.log(category);
-	//     if (category == -1) {
-	//         console.log('all');
-	//         rows = data.main.values;
-	//     } else {
-	//         console.log('filtered');
-	//         rows = data.main.values.filter(row => parseInt(row[1]) === category);
-	//     }
-		
-	//     initMap();
-	// });
-
 	// current marker idの変数
 	let currentMarkerId = null;
 
@@ -141,8 +111,8 @@ function init() {
 		});
 
 		// Default center coordinates if no valid points
-		let centerLat = 35.60651518008034;  // Default latitude (Reitaku area)
-		let centerLon = 140.118780167884; // Default longitude (Reitaku area)
+		let centerLat = 35.60651518008034;  // Default latitude
+		let centerLon = 140.118780167884; // Default longitude
 
 		if (validPoints > 0) {
 			centerLat = latSum / validPoints;
@@ -206,11 +176,8 @@ function init() {
 				width: config.size,
 				height: config.size,
 				zIndex: config.zIndex || index,
-				borderRadius: config.radius,
 				backgroundSize: 'cover',
 				cursor: 'pointer',
-				border: '2px solid white',
-				boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
 			});
 
 			const marker = new mapboxgl.Marker({ element: customMarker })
@@ -246,8 +213,7 @@ function init() {
 
 				currentMarkerId = id;
 				const leftPanel = document.getElementById('left-panel');
-				const rightPanel = document.getElementById('right-panel');
-				const mapElement = document.getElementById('map');
+				const mapElement = document.getElementById('map');				
 				
 				// Reset slide index when new marker is clicked
 				slideIndex = 1;
@@ -317,26 +283,8 @@ function init() {
 		showSlides(1);  // Reset to first slide when panel is regenerated
 	}
 
-	// 初期設定
-	// initMap();
+	// 初期設定;
 
-	// filter rows based on marker-filter dropdown
-	const markerFilterDropdown = document.getElementById('marker-filter');
-	// markerFilterDropdown.addEventListener('change', function() {
-	//     const category = parseInt(markerFilterDropdown.value);
-	//     console.log(category);
-	//     if (category == -1) {
-	//         console.log('all');
-	//         rows = data.main.values;
-	//     } else {
-	//         console.log('filtered');
-	//         rows = data.main.values.filter(row => parseInt(row[1]) === category);
-	//     }
-		
-	//     initMap();
-	// });
-
-	// Replace the 3D button event listeners with this:
 	document.getElementById('threeDToggle').addEventListener('change', function(e) {
 		if (e.target.checked) {
 			addGeoJsonLayer();
@@ -409,42 +357,4 @@ function init() {
 			: (isVisible ? 'Show map options' : 'Hide map options');
 	});
 
-}
-
-// Keep these functions outside init() as they're used globally
-function addGeoJsonLayer() {
-	map.addSource('geojson-data', {
-		type: 'geojson',
-		data: 'data/map.geojson'
-	});
-
-	map.easeTo({
-		pitch: 50, // 地図の傾斜角度を設定
-		bearing: -10, // 地図の回転角度を設定
-		duration: 1000 // アニメーションの持続時間を設定
-	});
-
-	map.addLayer({
-		id: 'geojson-layer',
-		type: 'fill-extrusion',
-		source: 'geojson-data',
-		paint: {
-			'fill-extrusion-color': '#204e00', // replaced #204e00
-			'fill-extrusion-height': ['get', 'height'],
-			'fill-extrusion-base': 0,
-			'fill-extrusion-opacity': 0.8
-		}
-	});
-}
-
-function removeGeoJsonLayer() {
-	map.removeLayer('geojson-layer');
-	map.removeSource('geojson-data');
-	
-	// Restore map to flat view
-	map.easeTo({
-		pitch: 0,
-		bearing: 0,
-		duration: 1000
-	});
 }
