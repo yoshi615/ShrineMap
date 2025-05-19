@@ -130,7 +130,7 @@ function init() {
 
 		// マーカーをマップに追加
 		rows.forEach((row, index) => {
-			const [id, category, jName, eName, lat, lon, jDescription, eDescription, link, linkname] = row;
+			const [id, category, jName, eName, lat, lon, link, linkname] = row;
 
 			const markerConfig = {
 				0: { image: `reitaku-${id}-1.jpg`, size: '40px', radius: '50%', zIndex: '1000' }
@@ -168,8 +168,8 @@ function init() {
 				} else {					
 					document.getElementById('info').innerHTML = `
 						<h2>${currentLanguage === 'japanese' ? jName : eName}</h2>
-						<p>${currentLanguage === 'japanese' ? jDescription : eDescription}</p>
 						<a href="${link}" target="_blank">${linkname}</a>
+						<iframe src="${link}" width="100%" height="400" style="border:none;"></iframe>
 					`;
 					lastClickedMarker = marker;
 				}
@@ -192,8 +192,8 @@ function init() {
 				
 				document.getElementById('info').innerHTML = `
 					<h2>${currentLanguage === 'japanese' ? jName : eName}</h2>
-					<p>${currentLanguage === 'japanese' ? jDescription : eDescription}</p>
 					<a href="${link}" target="_blank">${linkname}</a>
+					<iframe src="${link}" width="100%" height="400" style="border:none; overflow-x:hidden !important;"></iframe>
 				`;
 				lastClickedMarker = marker;
 			});
@@ -207,14 +207,13 @@ function init() {
 		const row = rows.find(row => row[0] === currentMarkerId);
 		if (!row) return; // if no row is found, exit the function
 
-		const [id, category, jName, eName, lat, lon, jDescription, eDescription, link, linkname] = row;
+		const [id, category, jName, eName, lat, lon, link, linkname] = row;
 
-		const description = currentLanguage === 'japanese' ? jDescription : eDescription;
 		const name = currentLanguage === 'japanese' ? jName : eName;
 		document.getElementById('info').innerHTML = `
 			<h2>${name}</h2>
-			<p>${description}</p>
-			<a href="${link}" target="_blank">${linkname}</a>			
+			<a href="${link}" target="_blank">${linkname}</a>
+			<iframe src="${link}" width="100%" height="400" style="border:none;"></iframe>
 		`;
 	}
 
