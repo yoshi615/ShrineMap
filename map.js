@@ -135,6 +135,15 @@ function init() {
 			center: [centerLon, centerLat],
 			// zoom: 15
 			});
+			map.on('style.load', () => {
+				map.addSource('mapbox-dem', {
+					'type': 'raster-dem',
+					'url': 'mapbox://mapbox.terrain-rgb',
+					'tileSize': 512,
+					'maxzoom': 15 // DEMタイルの最大ズーム
+				});
+				map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.2 });
+			});
 			if (validPoints > 0) {
 			map.fitBounds(bounds, { padding: 40 });
 			}
@@ -256,7 +265,7 @@ function init() {
 		const row = rows.find(row => row[0] === currentMarkerId);
 		if (!row) return; // if no row is found, exit the function
 
-		const [id, category, jName, eName, lat, lon, jDescription, eDescription,link,hashutagu,linkname,numphotos] = row;
+		const [id, category, jName, eName, lat, lon, jDescription, eDescription, link, linkname, numphotos] = row;
 		var rphotos = ''; // Object to store dynamically created variables
 
 		for (let i = 1; i <= numphotos; i++) {
@@ -284,14 +293,6 @@ function init() {
 	}
 
 	// 初期設定;
-
-	document.getElementById('threeDToggle').addEventListener('change', function(e) {
-		if (e.target.checked) {
-			addGeoJsonLayer();
-		} else {
-			removeGeoJsonLayer();
-		}
-	});
 
 	// Replace dropdown event listener with checkbox handler
 	const markerFilter = document.getElementById('marker-filter');
@@ -358,3 +359,8 @@ function init() {
 	});
 
 }
+
+// filepath: c:\Users\yoshi\OneDrive\デスクトップ\神社map\ShrineMap\map.js
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+});

@@ -1,6 +1,6 @@
 id,category,japanese-name,english-name,lat,lon,japanese-description,english-description,link,linkname
 id,category,千葉縣護国神社,english-name,35.62196939738054,140.15714589597144,japanese-description,engrlish-description,'https://www.chiba-gokoku.jp'/,千葉縣護国神社
-id,category,千葉神社,english-name,35.61211596352135,140.12374026528832,japanese-description,enrlish-description,link,linkname
+id,2;2.1,千葉神社,english-name,35.61211596352135,140.12374026528832,japanese-description,enrlish-description,link,linkname
 id,category,蘇賀比咩神社,english-name,35.57286257145516,140.1299936266519,japanese-description,english-description,link,linkname
 id,category,寒川神社,english-name,35.59773377171497, 140.12029345364084,japanese-description,english-description,link,linkname
 id,category,登渡神社,english-name,35.612320940727756,140.1065116708305,japanese-description,enrlish-description,link,linkname

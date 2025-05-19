@@ -16,62 +16,52 @@
 		<div id="info">Hover over a marker for details</div>
 	</div>
 	<div id="right-panel">
-		<div id="map">
-			<button id="tools-toggle" class="tools-toggle" data-ja="地図オプションを表示" data-en="Show map options">地図オプションを表示</button>
-			<div id="map-tools">
-				<div class="control-group">
-					<div class="control-header">
-						<label class="control-label" data-ja="表示" data-en="Show">表示</label>
-						<div class="control-actions">
-							<a href="#" class="control-link" id="check-all" data-ja="すべて表示" data-en="Show all">すべて表示</a>
-							<span class="control-separator">|</span>
-							<a href="#" class="control-link" id="uncheck-all" data-ja="すべて非表示" data-en="Hide all">すべて非表示</a>
+			<div id="map">
+				<button id="tools-toggle" class="tools-toggle" data-ja="地図オプションを表示" data-en="Show map options">地図オプションを表示</button>
+				<div id="map-tools">
+					<div class="control-group">
+						<div class="control-header">
+							<label class="control-label" data-ja="表示" data-en="Show">表示</label>
+							<div class="control-actions">
+								<a href="#" class="control-link" id="check-all" data-ja="すべて表示" data-en="Show all">すべて表示</a>
+								<span class="control-separator">|</span>
+								<a href="#" class="control-link" id="uncheck-all" data-ja="すべて非表示" data-en="Hide all">すべて非表示</a>
+							</div>
+						</div>
+						<div id="marker-filter" class="checkbox-group">
+							<label class="checkbox-label">
+								<input type="checkbox" value="0" checked>
+								<span class="checkbox-text" data-ja="神宮" data-en="AED">神宮</span>
+							</label>
+							<label class="checkbox-label">
+								<input type="checkbox" value="1" checked>
+								<span class="checkbox-text" data-ja="官国幣社" data-en="University">官国幣社</span>
+							</label>
+							<label class="checkbox-label">
+								<input type="checkbox" value="2" checked>
+								<span class="checkbox-text" data-ja="諸社" data-en="Middle & High School">諸社</span>
+							</label>
+							<label class="checkbox-label">
+								<input type="checkbox" value="3" checked>
+								<span class="checkbox-text" data-ja="無格社" data-en="Sports Facility">無格社</span>
+							</label>
+							<label class="checkbox-label">
+								<input type="checkbox" value="4" checked>
+								<span class="checkbox-text" data-ja="二十二社" data-en="Others">二十二社</span>
+							</label>
 						</div>
 					</div>
-					<div id="marker-filter" class="checkbox-group">
-						<label class="checkbox-label">
-							<input type="checkbox" value="0" checked>
-							<span class="checkbox-text" data-ja="大学" data-en="University">大学</span>
-						</label>
-						<label class="checkbox-label">
-							<input type="checkbox" value="1" checked>
-							<span class="checkbox-text" data-ja="中学・高校" data-en="Middle & High School">中学・高校</span>
-						</label>
-						<label class="checkbox-label">
-							<input type="checkbox" value="2" checked>
-							<span class="checkbox-text" data-ja="スポーツ施設" data-en="Sports Facility">スポーツ施設</span>
-						</label>
-						<label class="checkbox-label">
-							<input type="checkbox" value="3" checked>
-							<span class="checkbox-text" data-ja="その他" data-en="Others">その他</span>
-						</label>
-						<label class="checkbox-label">
-							<input type="checkbox" value="4" checked>
-							<span class="checkbox-text" data-ja="AED" data-en="AED">AED</span>
-						</label>
-						<label class="checkbox-label">
-							<input type="checkbox" value="5" checked>
-							<span class="checkbox-text" data-ja="多目的トイレ" data-en="Barrier-free Toilet">多目的トイレ</span>
-						</label>
+					<div class="control-row">
+							<label class="switch-lang" style="float: right;">
+							<input type="checkbox" id="languageToggle">
+							<span class="slider lang-slider">
+								<span class="lang-option ja">JA</span>
+								<span class="lang-option en">EN</span>
+							</span>
+							</label>
 					</div>
 				</div>
-				<div class="control-row">
-					<label class="switch-3d">
-						<input type="checkbox" id="threeDToggle">
-						<span class="slider "></span>
-						<span class="switch-label">3D</span>
-					</label>
-
-						<label class="switch-lang" style="float: right;">
-						<input type="checkbox" id="languageToggle">
-						<span class="slider lang-slider">
-							<span class="lang-option ja">JA</span>
-							<span class="lang-option en">EN</span>
-						</span>
-						</label>
-				</div>
 			</div>
-		</div>
 	</div>
 	<script src="https://api.mapbox.com/mapbox-gl-js/v3.9.0/mapbox-gl.js"></script>
 	<script src="map.js"></script>
