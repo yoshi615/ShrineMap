@@ -2,33 +2,6 @@ let map; // グローバル変数として定義
 
 // Remove the DOMContentLoaded wrapper and let getdata.js handle initialization
 function init() {
-
-	let slideIndex = 1;
-
-	function plusSlides(n) {
-		showSlides(slideIndex += n);
-	}
-
-	function showSlides(n) {
-		let i;
-		let slides = document.getElementsByClassName("mySlides");
-		if (slides.length === 0) return; // スライドが存在しない場合は処理をスキップ
-		if (n > slides.length) {slideIndex = 1}
-		if (n < 1) {slideIndex = slides.length}
-		for (i = 0; i < slides.length; i++) {
-			slides[i].style.display = "none";  
-		}
-		slides[slideIndex-1].style.display = "block";  
-	}
-
-	// 矢印ボタンのクリックイベントを設定
-	document.addEventListener('click', (event) => {
-		if (event.target.matches('.prev')) {
-			plusSlides(-1);
-		} else if (event.target.matches('.next')) {
-			plusSlides(1);
-		}
-	});
 	
 	let lastClickedMarker = null; // 最後にクリックしたマーカーを追跡
 	// 言語切り替え設定
@@ -75,11 +48,6 @@ function init() {
 	// すべてのマーカーの平均緯度と経度を計算
 	let latSum = 0;
 	let lonSum = 0;
-
-	
-
-
-
 
 	// Mapboxのアクセストークン
 	mapboxgl.accessToken = 'pk.eyJ1IjoieW9oamFwYW4iLCJhIjoiY2xnYnRoOGVmMDFsbTNtbzR0eXV6a2IwZCJ9.kJYURwlqIx_cpXvi66N0uw';
@@ -162,11 +130,7 @@ function init() {
 
 		// マーカーをマップに追加
 		rows.forEach((row, index) => {
-			const [id, category, jName, eName, lat, lon, jDescription, eDescription, link, linkname, numphotos] = row;
-			
-			const rphotos = Array.from({length: numphotos}, (_, i) => 
-				`<div class="mySlides fade"><img src="images/reitaku-${id}-${i + 1}.jpg" style="width:100%;height:350px;object-fit:cover"></div>`
-			).join('');
+			const [id, category, jName, eName, lat, lon, jDescription, eDescription, link, linkname] = row;
 
 			const markerConfig = {
 				0: { image: `reitaku-${id}-1.jpg`, size: '40px', radius: '50%', zIndex: '1000' }
@@ -201,31 +165,19 @@ function init() {
 				if (lastClickedMarker === marker) {
 					document.getElementById('info').innerHTML = 'マーカーをクリックまたはタップして詳細を表示';
 					lastClickedMarker = null;
-				} else {
-					const arrows = numphotos > 1 ? `
-						<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-						<a class="next" onclick="plusSlides(1)">&#10095;</a>
-					` : '';
-					
+				} else {					
 					document.getElementById('info').innerHTML = `
 						<h2>${currentLanguage === 'japanese' ? jName : eName}</h2>
 						<p>${currentLanguage === 'japanese' ? jDescription : eDescription}</p>
 						<a href="${link}" target="_blank">${linkname}</a>
-						<div class="slideshow-container">
-							${rphotos}
-							${arrows}
-						</div>
 					`;
 					lastClickedMarker = marker;
-					showSlides(1);  // Reset to first slide when marker is clicked
 				}
 
 				currentMarkerId = id;
 				const leftPanel = document.getElementById('left-panel');
 				const mapElement = document.getElementById('map');				
-				
-				// Reset slide index when new marker is clicked
-				slideIndex = 1;
+
 				
 				// Remove closed class to show panel
 				leftPanel.classList.remove('closed');
@@ -238,22 +190,12 @@ function init() {
 					}, 300);
 				}
 				
-				const arrows = numphotos > 1 ? `
-					<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-					<a class="next" onclick="plusSlides(1)">&#10095;</a>
-				` : '';
-				
 				document.getElementById('info').innerHTML = `
 					<h2>${currentLanguage === 'japanese' ? jName : eName}</h2>
 					<p>${currentLanguage === 'japanese' ? jDescription : eDescription}</p>
 					<a href="${link}" target="_blank">${linkname}</a>
-					<div class="slideshow-container">
-						${rphotos}
-						${arrows}
-					</div>
 				`;
 				lastClickedMarker = marker;
-				showSlides(1);  // Reset to first slide when marker is clicked
 			});
 		});
 
@@ -265,31 +207,15 @@ function init() {
 		const row = rows.find(row => row[0] === currentMarkerId);
 		if (!row) return; // if no row is found, exit the function
 
-		const [id, category, jName, eName, lat, lon, jDescription, eDescription, link, linkname, numphotos] = row;
-		var rphotos = ''; // Object to store dynamically created variables
-
-		for (let i = 1; i <= numphotos; i++) {
-			rphotos+=`<div class="mySlides fade"><img src="images/reitaku-${id}-${i}.jpg" style="width:100%;height:350px;object-fit:cover"></div> `;
-		}
-
-		const arrows = numphotos > 1 ? `
-			<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-			<a class="next" onclick="plusSlides(1)">&#10095;</a>
-		` : '';
+		const [id, category, jName, eName, lat, lon, jDescription, eDescription, link, linkname] = row;
 
 		const description = currentLanguage === 'japanese' ? jDescription : eDescription;
 		const name = currentLanguage === 'japanese' ? jName : eName;
 		document.getElementById('info').innerHTML = `
 			<h2>${name}</h2>
 			<p>${description}</p>
-			<a href="${link}" target="_blank">${linkname}</a>
-			<div class="slideshow-container">
-				${rphotos}
-				${arrows}
-			</div>
-			
+			<a href="${link}" target="_blank">${linkname}</a>			
 		`;
-		showSlides(1);  // Reset to first slide when panel is regenerated
 	}
 
 	// 初期設定;

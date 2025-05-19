@@ -24,9 +24,9 @@ async function fetchData(sheetName) {
 	}
 }
 
-// -------------------------------------------- //
+// ---------------------------------------------- //
 // データがすべてのシートから取得されたか確認する関数 //
-// -------------------------------------------- //
+// ---------------------------------------------- //
 async function checkAndInit() {
 	const promises = sheetNames.map(sheetName => fetchData(sheetName));
 	const results = await Promise.all(promises);
@@ -49,6 +49,6 @@ async function checkAndInit() {
 }
 
 // -------------------------------------------- //
-// さあ始めましょう                              //
+//                さあ始めましょう               //
 // -------------------------------------------- //
 checkAndInit();
