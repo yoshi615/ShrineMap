@@ -2,6 +2,11 @@ let map; // グローバル変数として定義
 
 // Remove the DOMContentLoaded wrapper and let getdata.js handle initialization
 function init() {
+	// dataが未定義なら何もしない
+	if (typeof data === 'undefined' || !data.main || !data.main.values) {
+		console.warn('data.main.values is not loaded yet.');
+		return;
+	}
 	
 	let lastClickedMarker = null; // 最後にクリックしたマーカーを追跡
 	// 言語切り替え設定
@@ -34,8 +39,8 @@ function init() {
 		// Update tools button text
 		const isVisible = mapTools.classList.contains('visible');
 		toolsToggle.textContent = newLanguage === 'english' 
-			? (isVisible ? 'Tools' : 'Show Tools')
-			: (isVisible ? 'ツール' : 'ツールを表示');
+			? (isVisible ? 'Show Tools' : 'Hide Tools')
+			: (isVisible ? 'ツールを表示' : 'ツール非表示');
 	});
 
 	// 初期メッセージを設定
@@ -99,9 +104,9 @@ function init() {
 		if (!map) {
 			map = new mapboxgl.Map({
 			container: 'map',
-			style: 'mapbox://styles/mapbox/standard',			
+			style: 'mapbox://styles/mapbox/streets-v12',
 			center: [centerLon, centerLat],
-			// zoom: 15
+			// zoom: 15  // ← この行はコメントのまま
 			});
 			map.on('style.load', () => {
 				map.addSource('mapbox-dem', {
@@ -113,12 +118,13 @@ function init() {
 				map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.2 });
 			});
 			if (validPoints > 0) {
-			map.fitBounds(bounds, { padding: 40 });
+				// マーカー全体が収まるようにfitBoundsで表示
+				map.fitBounds(bounds, { padding: 40, animate: false });
 			}
 		} else if (!preservePosition) {
 			map.setCenter([centerLon, centerLat]);
 			if (validPoints > 0) {
-			map.fitBounds(bounds, { padding: 40 });
+				map.fitBounds(bounds, { padding: 40, animate: false });
 			}
 		}
 
@@ -133,27 +139,34 @@ function init() {
 			const [id, category, jName, eName, lat, lon, link, linkname] = row;
 
 			const markerConfig = {
-				0: { image: `reitaku-${id}-1.jpg`, size: '40px', radius: '50%', zIndex: '1000' }
+				0: { image: `shrine-${id}-1.jpg`, size: '40px', radius: '50%', zIndex: '1000' }
 			};
 
 			const customMarker = document.createElement('div');
 			const config = markerConfig[category] || { 
-				image: `reitaku-${id}-1.jpg`, 
+				image: `shrine-${id}-1.jpg`, 
 				size: '40px', 
 				radius: '50%',
 				zIndex: index
 			};
 
+			// 初期は青ピン
 			Object.assign(customMarker.style, {
-				backgroundImage: `url(images/pin.png)`,
+				backgroundImage: `url(images/pin_blue.png)`,
 				width: config.size,
 				height: config.size,
 				zIndex: config.zIndex || index,
 				backgroundSize: 'cover',
 				cursor: 'pointer',
+				// 下端を座標に合わせる
+				transform: 'translate(-50%, -100%)',
+				position: 'absolute'
 			});
 
-			const marker = new mapboxgl.Marker({ element: customMarker })
+			const marker = new mapboxgl.Marker({
+				element: customMarker,
+				anchor: 'bottom'
+			})
 				.setLngLat([parseFloat(lon), parseFloat(lat)])
 				.addTo(map);
 
@@ -161,7 +174,23 @@ function init() {
 			customMarker.title = currentLanguage === 'japanese' ? jName : eName;
 
 			marker.getElement().addEventListener('click', () => {
-				// If same marker is clicked again, do nothing
+				// すべてのマーカーを青ピンに戻す
+				markers.forEach(m => {
+					m.getElement().style.backgroundImage = `url(images/pin_blue.png)`;
+				});
+				// このマーカーだけ赤ピン
+				customMarker.style.backgroundImage = `url(images/pin_red.png)`;
+
+				// マーカーを中心にズーム
+				map.flyTo({
+					center: [parseFloat(lon), parseFloat(lat)],
+					zoom: 17,
+					speed: 1.2,
+					curve: 1.5,
+					essential: true
+				});
+
+				// If same marker is clickedまたはタップして詳細を表示
 				if (lastClickedMarker === marker) {
 					document.getElementById('info').innerHTML = 'マーカーをクリックまたはタップして詳細を表示';
 					lastClickedMarker = null;
@@ -178,7 +207,6 @@ function init() {
 				const leftPanel = document.getElementById('left-panel');
 				const mapElement = document.getElementById('map');				
 
-				
 				// Remove closed class to show panel
 				leftPanel.classList.remove('closed');
 				document.body.classList.add('panel-open');
@@ -256,21 +284,6 @@ function init() {
 		initMap(true);
 	});
 
-	// Add panel toggle functionality
-	const leftPanel = document.getElementById('left-panel');
-	const panelHandle = document.getElementById('panel-handle');
-
-	panelHandle.addEventListener('click', () => {
-		leftPanel.classList.toggle('closed');
-		document.body.classList.toggle('panel-open');
-		
-		if (window.innerWidth <= 767) {
-			setTimeout(() => {
-				map.resize();
-			}, 300);
-		}
-	});
-
 	// Add tools panel toggle functionality
 	const toolsToggle = document.getElementById('tools-toggle');
 	const mapTools = document.getElementById('map-tools');
@@ -279,13 +292,51 @@ function init() {
 		const isVisible = mapTools.classList.contains('visible');
 		mapTools.classList.toggle('visible');
 		toolsToggle.textContent = currentLanguage === 'japanese' 
-			? (isVisible ? '地図オプションを表示' : '地図オプションを非表示')
-			: (isVisible ? 'Show map options' : 'Hide map options');
+			? (isVisible ? 'ツールを表示' : 'ツールを非表示')
+			: (isVisible ? 'Show tools' : 'Hide tools');
 	});
-
+	
+	// Add left-panel close button functionality
+	const leftPanel = document.getElementById('left-panel');
+	const leftPanelClose = document.getElementById('left-panel-close');
+	if (leftPanelClose) {
+		leftPanelClose.addEventListener('click', () => {
+			leftPanel.classList.add('closed');
+			document.body.classList.remove('panel-open');
+			// 最後にクリックしたマーカーを青ピンに戻す
+			if (lastClickedMarker && lastClickedMarker.getElement) {
+				lastClickedMarker.getElement().style.backgroundImage = `url(images/pin_blue.png)`;
+				lastClickedMarker = null;
+			}
+			// マップを初期位置・初期ズーム（全マーカーが収まるサイズ）に戻す
+			if (map && rows && rows.length > 0) {
+				let fitBounds = new mapboxgl.LngLatBounds();
+				rows.forEach(row => {
+					const [, , , , lat, lon] = row;
+					if (lat && lon) {
+						fitBounds.extend([parseFloat(lon), parseFloat(lat)]);
+					}
+				});
+				if (!fitBounds.isEmpty()) {
+					map.fitBounds(fitBounds, { padding: 40 });
+				} else {
+					map.flyTo({
+						center: [140.118780167884, 35.60651518008034],
+						zoom: 4,
+						speed: 1.2,
+						curve: 1.5,
+						essential: true
+					});
+				}
+			}
+			// 必要ならマップリサイズ
+			if (window.innerWidth <= 767 && map) {
+				setTimeout(() => {
+					map.resize();
+				}, 300);
+			}
+		});
+	}
 }
 
 // filepath: c:\Users\yoshi\OneDrive\デスクトップ\神社map\ShrineMap\map.js
-document.addEventListener('DOMContentLoaded', () => {
-    init();
-});
