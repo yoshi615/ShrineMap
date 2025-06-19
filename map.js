@@ -16,16 +16,6 @@ function init() {
 		regenerateLeftPanel(); // 左パネルを再生成
 	}
 
-	function updateTextContent() { // ここを追加
-		const elements = document.querySelectorAll('[data-japanese], [data-english]');
-		elements.forEach(element => {
-			if (currentLanguage === 'japanese') {
-				element.textContent = element.getAttribute('data-japanese');
-			} else {
-				element.textContent = element.getAttribute('data-english');
-			}
-		});
-	}
 
 	// Replace language button event listener with toggle
 	document.getElementById('languageToggle').addEventListener('change', function(e) {
@@ -55,7 +45,7 @@ function init() {
 	let lonSum = 0;
 
 	// Mapboxのアクセストークン
-	mapboxgl.accessToken = 'pk.eyJ1IjoieW9oamFwYW4iLCJhIjoiY2xnYnRoOGVmMDFsbTNtbzR0eXV6a2IwZCJ9.kJYURwlqIx_cpXvi66N0uw';
+	// mapboxgl.accessToken = 'pk.eyJ1IjoieW9oamFwYW4iLCJhIjoiY2xnYnRoOGVmMDFsbTNtbzR0eXV6a2IwZCJ9.kJYURwlqIx_cpXvi66N0uw';
 
 	// データを取得
 	let rows = data.main.values;
@@ -71,7 +61,7 @@ function init() {
 		lonSum = 0;
 		let validPoints = 0;
 
-		let bounds = new mapboxgl.LngLatBounds();
+		let bounds = new maplibregl.LngLatBounds();
 
 		rows.forEach(row => {
 			const [, , , , lat, lon] = row;
@@ -102,20 +92,11 @@ function init() {
 
 		// Initialize or update map
 		if (!map) {
-			map = new mapboxgl.Map({
-			container: 'map',
-			style: 'mapbox://styles/mapbox/streets-v12',
-			center: [centerLon, centerLat],
-			// zoom: 15  // ← この行はコメントのまま
-			});
-			map.on('style.load', () => {
-				map.addSource('mapbox-dem', {
-					'type': 'raster-dem',
-					'url': 'mapbox://mapbox.terrain-rgb',
-					'tileSize': 512,
-					'maxzoom': 15 // DEMタイルの最大ズーム
-				});
-				map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.2 });
+			map = new maplibregl.Map({
+				container: 'map',
+				style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json', // ← ここをCartoスタイルに変更
+				center: [centerLon, centerLat],
+				// zoom: 15  // ← この行はコメントのまま
 			});
 			if (validPoints > 0) {
 				// マーカー全体が収まるようにfitBoundsで表示
@@ -163,7 +144,7 @@ function init() {
 				position: 'absolute'
 			});
 
-			const marker = new mapboxgl.Marker({
+			const marker = new maplibregl.Marker({
 				element: customMarker,
 				anchor: 'bottom'
 			})
@@ -205,7 +186,6 @@ function init() {
 
 				currentMarkerId = id;
 				const leftPanel = document.getElementById('left-panel');
-				const mapElement = document.getElementById('map');				
 
 				// Remove closed class to show panel
 				leftPanel.classList.remove('closed');
@@ -246,7 +226,6 @@ function init() {
 	}
 
 	// 初期設定;
-
 	// Replace dropdown event listener with checkbox handler
 	const markerFilter = document.getElementById('marker-filter');
 	markerFilter.addEventListener('change', function(e) {
@@ -310,7 +289,7 @@ function init() {
 			}
 			// マップを初期位置・初期ズーム（全マーカーが収まるサイズ）に戻す
 			if (map && rows && rows.length > 0) {
-				let fitBounds = new mapboxgl.LngLatBounds();
+				let fitBounds = new maplibregl.LngLatBounds();
 				rows.forEach(row => {
 					const [, , , , lat, lon] = row;
 					if (lat && lon) {

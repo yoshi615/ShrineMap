@@ -33,14 +33,18 @@
         /* margin-left: calc(-30% + -27px); ← 不要なので削除 */
     }
     #right-panel {
-        width: 70%; /* ← 追加: left-panelが表示の時は70% */
+        width: 70%; /* ← left-panelが表示の時は70% */
         height: 100vh;
         position: relative;
         z-index: 1;
         /* overflow-y: hidden !important; */
+        left: 0; /* ← 追加: デフォルトは0 */
     }
     #left-panel.closed + #right-panel {
         width: 100%; /* ← left-panelが閉じている時は100% */
+        position: absolute; /* ← 追加: 画面全体に広げる */
+        left: 0;            /* ← 追加: 左端に揃える */
+        top: 0;             /* ← 追加: 上端に揃える */
     }
     #map {
         height: 100vh;
