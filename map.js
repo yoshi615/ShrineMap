@@ -16,6 +16,16 @@ function init() {
 		regenerateLeftPanel(); // 左パネルを再生成
 	}
 
+	function updateTextContent() { // ここを追加
+		const elements = document.querySelectorAll('[data-japanese], [data-english]');
+		elements.forEach(element => {
+			if (currentLanguage === 'japanese') {
+				element.textContent = element.getAttribute('data-japanese');
+			} else {
+				element.textContent = element.getAttribute('data-english');
+			}
+		});
+	}
 
 	// Replace language button event listener with toggle
 	document.getElementById('languageToggle').addEventListener('change', function(e) {
@@ -176,17 +186,55 @@ function init() {
 					document.getElementById('info').innerHTML = 'マーカーをクリックまたはタップして詳細を表示';
 					lastClickedMarker = null;
 				} else {					
+					// スライドショー用のHTMLを生成
+					const numPhotos = parseInt(row[8]) || 1; // numphotosの値（8番目のカラム）
+					let slideshowHTML = '';
+					
+					if (numPhotos > 1) {
+						slideshowHTML = `
+							<div class="slideshow-container">
+								<div class="slides">
+									${Array.from({length: numPhotos}, (_, i) => 
+										`<img src="images/${id}-${i+1}.jpg" onerror="this.style.display='none'">`
+									).join('')}
+								</div>
+								<button class="prev" onclick="changeSlide(this, -1)">❮</button>
+								<button class="next" onclick="changeSlide(this, 1)">❯</button>
+								<div class="dots-container">
+									${Array.from({length: numPhotos}, (_, i) => 
+										`<span class="dot" onclick="currentSlide(this, ${i+1})"></span>`
+									).join('')}
+								</div>
+							</div>
+						`;
+					} else {
+						slideshowHTML = `<img src="images/${id}-1.jpg" style="width: auto; height: auto; object-fit: cover;" onerror="this.style.display='none'">`;
+					}
+
+					// linkが有効なURLかチェック
+					let iframeHTML = '';
+					if (link && (link.startsWith('http://') || link.startsWith('https://'))) {
+						iframeHTML = `<iframe src="${link}" width="100%" height="400" style="border:none; overflow-x:hidden !important; margin-top: 10px;"></iframe>`;
+					}
+
 					document.getElementById('info').innerHTML = `
 						<h2>${currentLanguage === 'japanese' ? jName : eName}</h2>
-						<a href="${link}" target="_blank">${linkname}</a>
-						<iframe src="${link}" width="100%" height="400" style="border:none;"></iframe>
+						${link && (link.startsWith('http://') || link.startsWith('https://')) ? `<a href="${link}" target="_blank">${linkname || 'リンク'}</a>` : ''}
+						${slideshowHTML}
+						${iframeHTML}
 					`;
+					
+					// スライドショーを初期化
+					if (numPhotos > 1) {
+						setTimeout(() => initSlideshow(), 100);
+					}
+					
 					lastClickedMarker = marker;
 				}
 
 				currentMarkerId = id;
 				const leftPanel = document.getElementById('left-panel');
-
+				
 				// Remove closed class to show panel
 				leftPanel.classList.remove('closed');
 				document.body.classList.add('panel-open');
@@ -197,13 +245,6 @@ function init() {
 						map.resize();
 					}, 300);
 				}
-				
-				document.getElementById('info').innerHTML = `
-					<h2>${currentLanguage === 'japanese' ? jName : eName}</h2>
-					<a href="${link}" target="_blank">${linkname}</a>
-					<iframe src="${link}" width="100%" height="400" style="border:none; overflow-x:hidden !important;"></iframe>
-				`;
-				lastClickedMarker = marker;
 			});
 		});
 
@@ -218,14 +259,22 @@ function init() {
 		const [id, category, jName, eName, lat, lon, link, linkname] = row;
 
 		const name = currentLanguage === 'japanese' ? jName : eName;
+		
+		// linkが有効なURLかチェック
+		let iframeHTML = '';
+		if (link && (link.startsWith('http://') || link.startsWith('https://'))) {
+			iframeHTML = `<iframe src="${link}" width="100%" height="400" style="border:none;"></iframe>`;
+		}
+		
 		document.getElementById('info').innerHTML = `
 			<h2>${name}</h2>
-			<a href="${link}" target="_blank">${linkname}</a>
-			<iframe src="${link}" width="100%" height="400" style="border:none;"></iframe>
+			${link && (link.startsWith('http://') || link.startsWith('https://')) ? `<a href="${link}" target="_blank">${linkname || 'リンク'}</a>` : ''}
+			${iframeHTML}
 		`;
 	}
 
 	// 初期設定;
+
 	// Replace dropdown event listener with checkbox handler
 	const markerFilter = document.getElementById('marker-filter');
 	markerFilter.addEventListener('change', function(e) {
@@ -318,4 +367,43 @@ function init() {
 	}
 }
 
-// filepath: c:\Users\yoshi\OneDrive\デスクトップ\神社map\ShrineMap\map.js
+// スライドショー関数をグローバルに追加
+window.changeSlide = function(button, direction) {
+	const container = button.closest('.slideshow-container');
+	const slides = container.querySelectorAll('.slides img');
+	const dots = container.querySelectorAll('.dot');
+	let currentIndex = Array.from(slides).findIndex(slide => slide.style.display !== 'none');
+	
+	if (currentIndex === -1) currentIndex = 0;
+	
+	slides[currentIndex].style.display = 'none';
+	dots[currentIndex].classList.remove('active');
+	
+	currentIndex += direction;
+	if (currentIndex >= slides.length) currentIndex = 0;
+	if (currentIndex < 0) currentIndex = slides.length - 1;
+	
+	slides[currentIndex].style.display = 'block';
+	dots[currentIndex].classList.add('active');
+};
+
+window.currentSlide = function(dot, slideIndex) {
+	const container = dot.closest('.slideshow-container');
+	const slides = container.querySelectorAll('.slides img');
+	const dots = container.querySelectorAll('.dot');
+	
+	slides.forEach(slide => slide.style.display = 'none');
+	dots.forEach(d => d.classList.remove('active'));
+	
+	slides[slideIndex - 1].style.display = 'block';
+	dots[slideIndex - 1].classList.add('active');
+};
+
+function initSlideshow() {
+	const slides = document.querySelectorAll('.slides img');
+	const dots = document.querySelectorAll('.dot');
+	if (slides.length > 0) {
+		slides[0].style.display = 'block';
+		if (dots.length > 0) dots[0].classList.add('active');
+	}
+}

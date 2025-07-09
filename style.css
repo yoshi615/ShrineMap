@@ -7,12 +7,6 @@
         font-family: sans-serif;
         overflow-y: hidden;
     }
-    #left-panel+#right-panel {
-        height: 100%;
-        width: 100%;
-        position: relative;
-        display: flex;
-    }
     #left-panel {
         width: 30%;
         padding: 40px 10px;
@@ -24,39 +18,30 @@
         background: white;
         box-sizing: border-box;
         z-index: 2;
-        transition: transform 0.3s ease-in-out; /* ← 変更: margin-left→transform */
+        transition: transform 0.3s ease-in-out;
         background-color: rgba(41,100,96,0.2);
-        transform: translateX(0); /* ← 追加: 初期状態は表示 */
+        transform: translateX(0);
     }
     #left-panel.closed {
-        transform: translateX(-100%); /* ← 変更: 左端からスライドアウト */
-        /* margin-left: calc(-30% + -27px); ← 不要なので削除 */
+        transform: translateX(-100%);
     }
     #right-panel {
-        width: 70%; /* ← left-panelが表示の時は70% */
+        width: 70%;
         height: 100vh;
         position: relative;
         z-index: 1;
-        /* overflow-y: hidden !important; */
-        left: 0; /* ← 追加: デフォルトは0 */
     }
     #left-panel.closed + #right-panel {
-        width: 100%; /* ← left-panelが閉じている時は100% */
-        position: absolute; /* ← 追加: 画面全体に広げる */
-        left: 0;            /* ← 追加: 左端に揃える */
-        top: 0;             /* ← 追加: 上端に揃える */
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
     }
     #map {
         height: 100vh;
         width: 100%;
         position: absolute;
-        z-index: 1; /* Ensure map stays below panel and handle */
-    }
-    #map-style {
-        display: none;
-    }
-    #marker-filter-dropdown {
-        display: none;
+        z-index: 1;
     }
     #map-tools {
         position: absolute;
@@ -68,10 +53,9 @@
         visibility: hidden;
         padding: 10px;
         background-color: white;
-        opacity: 0.5;
         border-radius: 4px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        display: none;  /* Hide by default */
+        display: none;
     }
     #map-tools.visible {
         transform: translateX(0);
@@ -90,75 +74,44 @@
         font-size: 14px;
         width: 200px;
     }
-    select.map-control {
-        appearance: none;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 8px center;
-        background-size: 16px;
-        padding-right: 30px;
-    }
-    button.map-control {
-        background-color: #296460; /* replaced #296460 */
+    button.map-control, button {
+        background-color: #296460;
         color: white;
         border: none;
         cursor: pointer;
         transition: background-color 0.3s;
-    }
-    button.map-control:hover {
-        background-color: #163900; /* replaced #darkcodebase */
-    }
-    #language-control {
-        display: none;
-    }
-    button {
-        background-color: #296460; /* replaced #296460 */
-        color: white;
         padding: 10px 20px;
         margin: 5px;
-        cursor: pointer;
-        border: none;
         border-radius: 4px;
-        transition: background-color 0.3s ease, transform 0.3s ease;
         font-size: 16px;
     }
+    button.map-control:hover, button:hover {
+        background-color: #163900;
+    }
     button:hover {
-        background-color: #163900; /* replaced #darkcodebase */
         transform: scale(1.05);
     }
-    .fade {
-        animation-name: fade;
-        animation-duration: 1.5s;
-    }
-    @keyframes fade { from {opacity: .4} to {opacity: 1} }
 }
 
-/* =========================
-
-
-    スマートフォン用レイアウト
-
-
-    ========================= */
+/* スマートフォン用レイアウト */
 @media (max-width: 767px) {
     body {
         margin: 0;
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        height: 100vh; /* Ensure body takes full viewport height */
+        height: 100vh;
     }
     #left-panel {
         width: 100%;
         height: 50vh;
         position: fixed;
         bottom: 0;
-        background: rgba(41, 100, 96, 0.2);
+        background-color: rgba(41, 100, 96, 0.2);
         z-index: 2;
         transition: transform 0.3s ease-in-out;
-        background-color: rgba(41, 100, 96, 0.2);
         overflow-y: auto;
-        transform: translateY(100%); /* Start hidden */
+        transform: translateY(100%);
         padding: 20px;
         box-sizing: border-box;
     }
@@ -166,7 +119,7 @@
         transform: translateY(100%);
     }
     #left-panel:not(.closed) {
-        transform: translateY(0); /* Show panel when not closed */
+        transform: translateY(0);
     }
     #left-panel:not(.closed) + #right-panel {
         height: 50vh;
@@ -176,31 +129,24 @@
     }
     #right-panel {
         width: 100%;
-        height: 100vh; /* Default to full height */
+        height: 100vh;
         transition: height 0.3s ease-in-out;
         position: relative;
-        flex-shrink: 0; /* Prevent panel from shrinking */
+        flex-shrink: 0;
     }
     #map {
-        height: 100vh; /* Default to full height */
+        height: 100vh;
         width: 100%;
         transition: height 0.3s ease-in-out;
-    }
-    #map-style {
-        display: none;
-    }
-    #marker-filter-dropdown {
-        display: none;
     }
     #map-tools {
         position: absolute;
         top: 50px;
-        /* top: auto; */
         right: 10px;
         z-index: 9999;
         padding: 10px;
         background-color: white;
-        display: none;  /* Hide by default */
+        display: none;
     }
     #map-tools.visible {
         display: block;
@@ -215,49 +161,21 @@
         font-size: 12px;
         width: 150px;
     }
-    select.map-control {
-        appearance: none;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 8px center;
-        background-size: 16px;
-        padding-right: 30px;
-    }
-    button.map-control {
-        background-color: #296460; /* replaced #296460 */
+    button.map-control, button {
+        background-color: #296460;
         color: white;
         border: none;
         cursor: pointer;
         transition: background-color 0.3s;
-    }
-    button.map-control:hover {
-        background-color: #163900; /* replaced #darkcodebase */
-    }
-    #language-control {
-        display: none;
-    }
-    button {
-        background-color: #296460; /* replaced #296460 */
-        color: white;
         padding: 10px 20px;
         margin: 5px;
-        cursor: pointer;
-        border: none;
         border-radius: 4px;
-        transition: background-color 0.3s ease, transform 0.3s ease;
         font-size: 16px;
     }
-    button:hover {
-        background-color: #163900; /* replaced #darkcodebase */
+    button.map-control:hover, button:hover {
+        background-color: #163900;
         transform: scale(1.05);
     }
-    .fade {
-        animation-name: fade;
-        animation-duration: 1.5s;
-    }
-    @keyframes fade { from {opacity: .4} to {opacity: 1} }
-    
-    /* Add this new style for when panel is open */
     body.panel-open {
         height: 100vh;
         overflow: hidden;
@@ -268,20 +186,20 @@
     }
 }
 
-/* Replace all switch styles with these new ones */
-.switch {
-    position: relative;
+/* 言語スイッチ */
+.switch-lang {
+    width: 44px;
+    height: 24px;
     display: inline-block;
-    width: 60px;  /* Increase width */
-    height: 28px; /* Increase height */
-    margin: 5px 0;
+    position: relative;
+    margin: 5px;
 }
 
-.switch input {
+.switch-lang input {
     display: none;
 }
 
-.slider {
+.switch-lang .slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -292,16 +210,16 @@
     transition: .3s;
     border: 1px solid #bbb;
     box-sizing: border-box;
-    border-radius: 14px; /* Make slider rounded */
+    border-radius: 14px;
 }
 
-.slider:before {
+.switch-lang .slider:before {
     position: absolute;
     content: "";
-    height: 24px;
-    width: 24px;
-    left: 2px; /* Center the knob */
-    top: 2px;
+    width: 22px;
+    height: 22px;
+    left: 0px;
+    top: 0px;
     background-color: white;
     transition: .3s;
     border: 1px solid #bbb;
@@ -309,35 +227,22 @@
     border-radius: 50%;
 }
 
-input:checked + .slider {
-    background-color: #296460; /* replaced #296460 */
-    border-color: #1a3f00; /* replaced #darkcodebase */
+.switch-lang input:checked + .slider {
+    background-color: #296460;
+    border-color: #1a3f00;
 }
 
-input:checked + .slider:before {
+.switch-lang input:checked + .slider:before {
     transform: translateX(20px);
-    border-color: #1a3f00; /* replaced #darkcodebase */
+    border-color: #1a3f00;
 }
 
-.switch-label {
-    position: absolute;
-    left: 26px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-    font-size: 10px;
-    white-space: nowrap;
-    user-select: none;
-    font-weight: bold;
-}
-
-/* Add new language switch styles */
 .lang-slider {
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    pointer-events: none; /* Allow clicks to pass to checkbox */
+    pointer-events: none;
 }
 
 .lang-option {
@@ -351,7 +256,7 @@ input:checked + .slider:before {
 
 input:checked + .lang-slider .en,
 .lang-slider .ja {
-    color: #296460; /* replaced #296460 */
+    color: #296460;
 }
 
 input:checked + .lang-slider .ja,
@@ -359,22 +264,7 @@ input:checked + .lang-slider .ja,
     color: #666;
 }
 
-/* Modify switch size for language toggle */
-#language-control .switch {
-    width: 53px;
-    height: 26px;
-}
-
-#language-control .slider:before {
-    height: 24px;
-    width: 25px;
-}
-
-#language-control input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-/* Add new control group styles */
+/* コントロール */
 .control-group {
     margin-bottom: 10px;
 }
@@ -384,10 +274,9 @@ input:checked + .lang-slider .ja,
     margin-bottom: 4px;
     color: #333;
     font-size: 14px;
-    font-weight: bold
+    font-weight: bold;
 }
 
-/* Add new checkbox group styles */
 .checkbox-group {
     background: white;
     padding: 8px;
@@ -405,7 +294,6 @@ input:checked + .lang-slider .ja,
 }
 
 .checkbox-label input[type="checkbox"] {
-    /* Custom checkbox styling */
     appearance: none;
     -webkit-appearance: none;
     width: 18px;
@@ -418,8 +306,8 @@ input:checked + .lang-slider .ja,
 }
 
 .checkbox-label input[type="checkbox"]:checked {
-    background-color: #296460; /* replaced #296460 */
-    border-color: #1a3f00; /* replaced #darkcodebase */
+    background-color: #296460;
+    border-color: #1a3f00;
 }
 
 .checkbox-label input[type="checkbox"]:checked::after {
@@ -436,7 +324,6 @@ input:checked + .lang-slider .ja,
     color: #333;
 }
 
-/* Add new control header styles */
 .control-header {
     display: flex;
     justify-content: space-between;
@@ -452,13 +339,13 @@ input:checked + .lang-slider .ja,
 }
 
 .control-link {
-    color: #296460; /* replaced #296460 */
+    color: #296460;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .control-link:hover {
-    color: #163900; /* replaced #darkcodebase */
+    color: #163900;
     text-decoration: underline;
 }
 
@@ -471,7 +358,7 @@ input:checked + .lang-slider .ja,
     top: 10px;
     right: 10px;
     z-index: 10000;
-    background: #296460; /* replaced #296460 */
+    background: #296460;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -483,7 +370,7 @@ input:checked + .lang-slider .ja,
 }
 
 .tools-toggle:hover {
-    background-color: #163900; /* replaced #darkcodebase */
+    background-color: #163900;
 }
 
 .control-row {
@@ -491,27 +378,6 @@ input:checked + .lang-slider .ja,
     gap: 20px;
     align-items: center;
     margin-top: 10px;
-}
-
-.switch-lang {
-    width: 44px;
-    height: 24px;
-    display: inline-block;
-    position: relative;
-    margin: 5px;
-}
-
-.switch-lang .slider {
-    width: 100%;
-    height: 100%;
-    /* border-radius: 4px; */
-}
-
-.switch-lang .slider:before {
-    width: 22px;
-    height: 22px;
-    left: 0px;
-    top: 0px;
 }
 
 #left-panel-close {
@@ -536,6 +402,80 @@ input:checked + .lang-slider .ja,
     transition: background 0.2s;
     letter-spacing: 0.1em;
 }
+
 #left-panel-close:hover {
     background: #eee;
+}
+
+/* スライドショー */
+.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    background: #f1f1f1;
+}
+
+.slides {
+    display: block !important;
+}
+
+.slides img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: none;
+}
+
+.slides img:first-child {
+    display: block;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 3px;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.prev:hover, .next:hover {
+    background: rgba(0,0,0,0.8);
+    transform: translateY(-50%);
+}
+
+.dots-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot:hover {
+    background-color: #717171;
+}
+
+.dot.active {
+    background-color: #296460 !important;
 }

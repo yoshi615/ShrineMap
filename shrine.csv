@@ -1,25 +1,26 @@
-id,category,japanese-name,english-name,lat,lon,link,linkname
-1,2;2.1,千葉縣護国神社,Chiba Prefecture Gokoku Shrine,35.62196939738054,140.15714589597144,'https://www.chiba-gokoku.jp'/,千葉縣護国神社
-2,2;2.1,千葉神社,Chiba Shrine,35.61211596352135,140.12374026528832,https://www.chibajinja.com/index.html,千葉神社
-3,2;2.2,蘇賀比咩神社,Sogahime Shrine,35.57286257145516,140.1299936266519,https://www.sogahime.com/,蘇賀比咩神社
-4,2;2.3,寒川神社,Samukawa Shrine,35.59773377171497, 140.12029345364084,https://www.chiba-samukawa-jinja.or.jp/,寒川神社
-5,2;2.3,登渡神社,Towatari Shrine,35.612320940727756,140.1065116708305,https://www.towatarijinjya.com/,登渡神社
-6,2;2.3,稲毛浅間神社,Inage Sengen Shrine,35.63677210618514,140.08253865549028,https://www.inage-sengenjinja.or.jp/,稲毛浅間神社
-7,2;2.2,海上八幡宮,Umikami Hachiman Shrine,35.74785658485089,140.78677119967233,https://www.city.choshi.chiba.jp/edu/sg-guide/page210176.html,海上八幡宮本殿
-8,2;2.2,銚港神社,Choko Shrine,35.73175314652021,140.84038909412922,https://www.chokojinja.info/about-chohkojinja,銚港神社
-9,2;2.2,渡海神社,Tokai Shrine,35.705477630119454,140.8476656536462,https://www.city.choshi.chiba.jp/edu/sg-guide/page210151.html,渡海神社
-10,2;2.3,川口神社,Kawaguchi Shrine,35.73830652385309,140.8554506266609,https://www.choshikanko.com/kankoDB/%e5%b7%9d%e5%8f%a3%e7%a5%9e%e7%a4%be/,川口神社
-11,3,猿田神社,Saruta Shrine,35.74747575686637,140.73382596034784,link,猿田神社
-12,2;2.1,葛飾八幡宮,Katsushika Hachiman Shrine,35.72423744302827,139.9310980671411,https://www.katsushikahachimangu.com/,葛飾八幡宮
-13,2;2.1;5.1,意富比神社,Ohhi Shrine,35.69653668819449,139.99326529945216,http://www.oohijinja.jp/,意富比神社
-14,2;2.2;5.1,二宮神社,Ninomiya Shrine,35.70195495687798,140.05234649465433,https://www.ninomiya-jinja.jp/,二宮神社
-15,5;5.1,安房神社,Awa Shrine,35.72227124454037,139.94371331927823,http://awajinjya.org/,安房神社
-16,2;5.1,洲宮神社,Sumiya Shrine,34.95256956011125,139.83852285361,https://tateyamacity.com/archives/2754,洲宮神社
-17,2;2.1,鶴谷八幡宮,Turugaya Hachiman Shrine,35.005247436769814,139.86661086525908,https://www.tsurugayahachimangu.com/%E3%83%9B%E3%83%BC%E3%83%A0,鶴谷八幡宮
-18,2;2.2,諏訪神社,Suwa Shrine,34.99642783017915,139.86641075365938,https://bosotown.com/archives/888,諏訪神社
-19,2;2.2,手力雄神社,Tajikaraou Shrine,35.00238738452307,139.93532922108224,https://bosotown.com/archives/14890,手力雄神社
-20,2;2.2,布良崎神社,Merasaki Shrine,34.917411370253035,139.826336338267,https://bosotown.com/archives/18722,布良崎神社
-21,2;2.2,八剱八幡宮,Yatsurugi Hachiman Shrine,35.38119117268564,139.9234733247952,http://www.yaturugi.net/,八剱八幡宮
-22,2;2.3,吾妻神社,Azuma Shrine,35.39122120634421,139.9198765047483,https://azumashrine.wixsite.com/website-1,吾妻神社
-23,2;2.3,蘇羽鷹神社,Sobataka Shrine,35.81815127298139,139.92689275365169,http://www.komainu.org/chiba/matsudosi/SobatakaFutatugi/sobataka.html,蘇羽鷹神社
-24,2;2.3,松戸神社,Matsudo Shrine,35.7806459578493,139.89772176979088,https://www.matsudojinja.com/,松戸神社
+id,category,japanese-name,english-name,lat,lon,link,linkname,numphotos
+1,2;2.1,千葉縣護国神社,Chiba Prefecture Gokoku Shrine,35.62196939738054,140.15714589597144,'https://www.chiba-gokoku.jp'/,千葉縣護国神社,0
+2,2;2.1,千葉神社,Chiba Shrine,35.61211596352135,140.12374026528832,https://www.chibajinja.com/index.html,千葉神社,0
+3,2;2.2,蘇賀比咩神社,Sogahime Shrine,35.57286257145516,140.1299936266519,https://www.sogahime.com/,蘇賀比咩神社,0
+4,2;2.3,寒川神社,Samukawa Shrine,35.59773377171497, 140.12029345364084,https://www.chiba-samukawa-jinja.or.jp/,寒川神社,0
+5,2;2.3,登渡神社,Towatari Shrine,35.612320940727756,140.1065116708305,https://www.towatarijinjya.com/,登渡神社,0
+6,2;2.3,稲毛浅間神社,Inage Sengen Shrine,35.63677210618514,140.08253865549028,https://www.inage-sengenjinja.or.jp/,稲毛浅間神社,0
+7,2;2.2,海上八幡宮,Umikami Hachiman Shrine,35.74785658485089,140.78677119967233,https://www.city.choshi.chiba.jp/edu/sg-guide/page210176.html,海上八幡宮本殿,0
+8,2;2.2,銚港神社,Choko Shrine,35.73175314652021,140.84038909412922,https://www.chokojinja.info/about-chohkojinja,銚港神社,0
+9,2;2.2,渡海神社,Tokai Shrine,35.705477630119454,140.8476656536462,https://www.city.choshi.chiba.jp/edu/sg-guide/page210151.html,渡海神社,0
+10,2;2.3,川口神社,Kawaguchi Shrine,35.73830652385309,140.8554506266609,https://www.choshikanko.com/kankoDB/%e5%b7%9d%e5%8f%a3%e7%a5%9e%e7%a4%be/,川口神社,0
+11,3,猿田神社,Saruta Shrine,35.74747575686637,140.73382596034784,link,猿田神社,0
+12,2;2.1,葛飾八幡宮,Katsushika Hachiman Shrine,35.72423744302827,139.9310980671411,https://www.katsushikahachimangu.com/,葛飾八幡宮,0
+13,2;2.1;5.1,意富比神社,Ohhi Shrine,35.69653668819449,139.99326529945216,http://www.oohijinja.jp/,意富比神社,0
+14,2;2.2;5.1,二宮神社,Ninomiya Shrine,35.70195495687798,140.05234649465433,https://www.ninomiya-jinja.jp/,二宮神社,0
+15,5;5.1,安房神社,Awa Shrine,35.72227124454037,139.94371331927823,http://awajinjya.org/,安房神社,0
+16,2;5.1,洲宮神社,Sumiya Shrine,34.95256956011125,139.83852285361,https://tateyamacity.com/archives/2754,洲宮神社,0
+17,2;2.1,鶴谷八幡宮,Turugaya Hachiman Shrine,35.005247436769814,139.86661086525908,https://www.tsurugayahachimangu.com/%E3%83%9B%E3%83%BC%E3%83%A0,鶴谷八幡宮,0
+18,2;2.2,諏訪神社,Suwa Shrine,34.99642783017915,139.86641075365938,https://bosotown.com/archives/888,諏訪神社,0
+19,2;2.2,手力雄神社,Tajikaraou Shrine,35.00238738452307,139.93532922108224,https://bosotown.com/archives/14890,手力雄神社,0
+20,2;2.2,布良崎神社,Merasaki Shrine,34.917411370253035,139.826336338267,https://bosotown.com/archives/18722,布良崎神社,0
+21,2;2.2,八剱八幡宮,Yatsurugi Hachiman Shrine,35.38119117268564,139.9234733247952,http://www.yaturugi.net/,八剱八幡宮,0
+22,2;2.3,吾妻神社,Azuma Shrine,35.39122120634421,139.9198765047483,https://azumashrine.wixsite.com/website-1,吾妻神社,0
+23,2;2.3,蘇羽鷹神社,Sobataka Shrine,35.81815127298139,139.92689275365169,http://www.komainu.org/chiba/matsudosi/SobatakaFutatugi/sobataka.html,蘇羽鷹神社,0
+24,2;2.3,松戸神社,Matsudo Shrine,35.7806459578493,139.89772176979088,https://www.matsudojinja.com/,松戸神社,0
+25,2;2.3,金ヶ作熊野神社,Kanegasaku Kumano Shrine,35.805683334895654,139.9516295890708,https://kumano.in/,金ヶ作熊野神社,5
